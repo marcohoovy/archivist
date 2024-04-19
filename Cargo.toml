@@ -1,0 +1,13 @@
+[package]
+name = "archivist"
+version = "0.1.0"
+edition = "2021"
+authors = ["hoovy"]
+description = "Project Sorter"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+git2 = "0.13"
+serde = { version = "1.0.198", features = ["derive"] }
+toml = "0.8.12"
