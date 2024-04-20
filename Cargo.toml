@@ -8,6 +8,6 @@ description = "Project Sorter"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-git2 = "0.13"
+git2 = "0.18.3"
 serde = { version = "1.0.198", features = ["derive"] }
 toml = "0.8.12"
