@@ -37,7 +37,9 @@ fn main() {
             
             if authors.contains(&"hoovy".to_string()) || authors.contains(&"marco".to_string()) {
 
-                let src_status = if project.package.homepage.is_some() { SourceStatus::Open } else { SourceStatus::Closed };
+                let mut src_status = if project.package.homepage.is_some() { SourceStatus::Open } else { SourceStatus::Closed };
+
+                let mut repo_url = project.package.homepage;
 
                 let mut last_commit_time = 0;
                 let mut first_commit_time = 0;
@@ -49,7 +51,17 @@ fn main() {
                             if let Some(parent) = commit.parents().last() {
                                 first_commit_time = parent.time().seconds();
                             }
-        
+
+                            if let Ok(remote) = repo.find_remote("origin") {
+                                let url = remote.url().unwrap();
+                                let response = reqwest::blocking::get(url).unwrap();
+
+                                if response.status().is_success() {
+                                    src_status = SourceStatus::Open;
+                                    repo_url = Some(url.to_string());
+                                }
+                            };
+                                                        
                             last_commit_time = commit.time().seconds();
                         };
                     } else { println!("No head! Please Commit! ({entry:?})"); };
@@ -74,7 +86,7 @@ fn main() {
                     name: project.package.name,
                     description: project.package.description,
                     source_status: src_status,
-                    src: project.package.homepage,
+                    src: repo_url,
                     dev_status: DevelopmentStatus::Stable,
                     license: None,
                     maintenance: maintance_status,

@@ -9,5 +9,6 @@ description = "Project Sorter & Archiver"
 
 [dependencies]
 git2 = "0.18.3"
+reqwest = {version = "0.12.4", features= ["blocking"]}
 serde = { version = "1.0.198", features = ["derive"] }
 toml = "0.8.12"
